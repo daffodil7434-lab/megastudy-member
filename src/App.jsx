@@ -68,6 +68,13 @@ function fmtED(s) {
   const d = new Date(s);
   return isNaN(d.getTime()) ? s : (d.getMonth() + 1) + "/" + d.getDate();
 }
+async function loadS(k) {
+  try { const r = await window.storage.get(k); return r ? JSON.parse(r.value) : null; }
+  catch { return null; }
+}
+async function saveS(k, v) {
+  try { await window.storage.set(k, JSON.stringify(v)); } catch (e) { console.error(e); }
+}
 // 마감 여부 체크: deadlineDay(매월 n일)가 지났으면 잠금
 function isDeadlinePassed(deadlineDay) {
   if (!deadlineDay) return false;
